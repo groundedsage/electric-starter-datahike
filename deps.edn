@@ -12,7 +12,8 @@
         io.replikativ/datahike {:local/root "../datahike/target/datahike-0.6.1587.jar"}
         ring-basic-authentication/ring-basic-authentication {:mvn/version "1.1.1"}}
  :aliases {:dev
-           {:extra-deps
+           {:extra-paths ["src-dev"]
+            :extra-deps
             {binaryage/devtools {:mvn/version "1.0.6"}
              thheller/shadow-cljs {:mvn/version "2.25.2"}}
             :jvm-opts

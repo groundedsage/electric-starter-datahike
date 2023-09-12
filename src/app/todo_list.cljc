@@ -8,6 +8,15 @@
 (e/def db) ; injected database ref; Electric defs are always dynamic
 (e/def !conn)
 
+#?(:clj (defn start-datahike! []
+          (let [cfg {:store {:backend :mem :id "schemaless"}
+                     :schema-flexibility :read}
+                _ (d/create-database cfg)
+                conn (d/connect cfg)]
+            conn)))
+
+#?(:clj (def !datahike))
+
 ;; (def cfg {:store {:backend :mem :id "schemaless"}
 ;;           :schema-flexibility :read})
 ;; #?(:clj (defonce mem-db (d/create-database cfg)))
@@ -60,8 +69,8 @@
 
 (e/defn Todo-list []
   (e/server
-    (binding [!conn user/!datahike
-              db (e/watch user/!datahike)]
+    (binding [!conn !datahike
+              db (e/watch !datahike)]
       (println "This is the db: " db)
       (println "the db query: " (d/q '[:find [?e ...] :in $ ?status
                                        :where [?e :task/status ?status]] db :active))

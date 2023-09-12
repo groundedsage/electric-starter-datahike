@@ -1,5 +1,5 @@
 (ns user
-  (:require [datahike.api :as dh])) ; Must be ".clj" file, Clojure doesn't auto-load user.cljc
+  (:require [app.todo-list :as app])) ; Must be ".clj" file, Clojure doesn't auto-load user.cljc
 
 ; lazy load dev stuff - for faster REPL startup and cleaner dev classpath
 (def start-electric-server! (delay @(requiring-resolve 'app.electric-server-java8-jetty9/start-server!)))
@@ -9,18 +9,10 @@
 (def electric-server-config
   {:host "0.0.0.0", :port 8080, :resources-path "public"})
 
-(defn start-datahike! []
-  (let [cfg {:store {:backend :mem :id "schemaless"}
-             :schema-flexibility :read}
-        _ (dh/create-database cfg)
-        conn (dh/connect cfg)]
-    conn))
-
-(def !datahike)
 
 (defn main [& args]
   (println "Starting Electric compiler and server...")
-  (alter-var-root #'!datahike (constantly (start-datahike!)))
+  (alter-var-root #'app/!datahike (constantly (app/start-datahike!)))
   (@shadow-start!) ; serves index.html as well
   (@shadow-watch :dev) ; depends on shadow server
   ; Shadow loads app.todo-list here, such that it shares memory with server.
