@@ -1,15 +1,5 @@
 # electric-starter-datahike
 
-Clone https://github.com/replikativ/datahike
-
-Checkout branch `638-improve-connection-handling`
-
-Install Babashka if not already installed https://github.com/babashka/babashka
-
-Run `bb jar`
-
-Ensure that `deps.edn`` points to local jar for Datahike
-
 ```
 $ clj -A:dev -X user/main
 
